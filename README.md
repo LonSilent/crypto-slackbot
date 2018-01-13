@@ -1,6 +1,6 @@
 # crypto-slackbot
 
-A simple bot to get the price of cryptocurrencies. written with python. And it is compatible with python2.7 and python 3.x. 
+A simple bot to get the price of cryptocurrencies, written with python. And it is compatible with python2.7 and python 3.x. 
 
 ## Dependency
 
