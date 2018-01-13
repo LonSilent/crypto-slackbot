@@ -10,26 +10,28 @@ slackclient, requests
 
 ## Get Started
 
-1. Modify your bash
+1. Create a Slack App to recieve an API token for your bot. You can follow this [tutorial](https://www.fullstackpython.com/blog/build-first-slack-bot-python.html).
+
+2. Modify your bash
 ```
 export SLACK_BOT_TOKEN='your bot user OAuth access token here'
 ```
 
-2. Install Packages
+3. Install Packages
 ```
 pip install slackclient
 pip install requests
 ```
 
-3. Start the bot
+4. Start the bot
 
 ```
 python bot.py
 ```
 
-4. Invite your bot user to the channel you want to use.
+5. Invite your bot user to the channel you want to use.
 
-5. Enjoy! Just type `bot btc`, `bot xrp` ... whatever. 
+6. Enjoy! Just type `bot btc`, `bot xrp` ... whatever. 
 
 ## Usage in slack
 
