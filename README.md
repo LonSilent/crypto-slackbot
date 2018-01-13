@@ -2,6 +2,8 @@
 
 A simple bot to get the price of cryptocurrencies, written with python. And it is compatible with python2.7 and python 3.x. 
 
+<img src="https://i.imgur.com/9Re8rTR.png">
+
 ## Dependency
 
 slackclient, requests
