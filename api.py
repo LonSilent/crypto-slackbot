@@ -43,6 +43,16 @@ def get_price_full(symbol):
 
     return result, usd_pct, btc_pct, eth_pct
 
+def get_exchange_price(exchange):
+    result = {}
+    exchange = exchange.lower().capitalize()
+    coin_data = requests.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP&tsyms=USD&e={}'.format(exchange)).json()
+
+    for sym, price in coin_data.items():
+        result[sym] = price['USD']
+
+    return result
+
 # get maicoin price, only support BTC, ETH, LTC
 def get_maicoin_price(symbol, market_price):
     result = {}
@@ -64,8 +74,16 @@ def get_maicoin_price(symbol, market_price):
     return result
 
 def collect_data(symbol, enable_maicoin=False):
-    symbol = symbol.upper()    
-    # price_data = get_price(symbol)
+    symbol = symbol.upper()
+    exchange_list = ['BITFINEX', 'CEXIO', 'BITSTAMP', 'KRAKEN']
+    if symbol in exchange_list:
+        price_data = get_exchange_price(symbol)
+        result_message = symbol.lower().capitalize() + '\n' + \
+            '[BTC] {}'.format(price_data['BTC']) + \
+            '\n[ETH] {}'.format(price_data['ETH']) + \
+            '\n[XRP] {}'.format(price_data['XRP']) + '\n'
+        return result_message.strip()
+
     price_data, usd_pct, btc_pct, eth_pct = get_price_full(symbol)
     if price_data == None:
         return 'There is no data for the coin {}'.format(symbol)
@@ -89,10 +107,15 @@ if __name__ == '__main__':
 
     # print(get_price_full('BTC'))
     
-    # print(collect_data('btc'))
-    # print(collect_data('eth'))
-    # print(collect_data('ltc'))
+    print(collect_data('btc'))
+    print(collect_data('eth'))
+    print(collect_data('ltc'))
     print(collect_data('xrp'))
+    print(collect_data('cexio'))
+    print(collect_data('bitfinex'))
+    print(collect_data('kraken'))
+    print(collect_data('bitstamp'))
+    # print(collect_data('btc'))
     # print(collect_data('ada'))
     
     end = timeit.default_timer()
