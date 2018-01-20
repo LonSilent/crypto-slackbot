@@ -13,6 +13,7 @@ slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 # constants
 RTM_READ_DELAY = 1 # 1 second delay between reading from RTM
 COMMAND = "bot "
+ENABLE_MAICOIN = False
 
 def parse_bot_commands(slack_events):
     for event in slack_events:
@@ -26,7 +27,7 @@ def parse_bot_commands(slack_events):
     return None, None
 
 def handle_command(symbol, channel):
-    response = collect_data(symbol)
+    response = collect_data(symbol, enable_maicoin=ENABLE_MAICOIN)
 
     slack_client.api_call(
         "chat.postMessage",

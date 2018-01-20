@@ -63,7 +63,7 @@ def get_maicoin_price(symbol, market_price):
 
     return result
 
-def collect_data(symbol):
+def collect_data(symbol, enable_maicoin=False):
     symbol = symbol.upper()    
     # price_data = get_price(symbol)
     price_data, usd_pct, btc_pct, eth_pct = get_price_full(symbol)
@@ -76,7 +76,7 @@ def collect_data(symbol):
         '\n[BTC] {}'.format(price_data['BTC']) + ' ' + btc_pct + \
         '\n[ETH] {}'.format(price_data['ETH']) + ' ' + eth_pct + '\n'
 
-    if symbol in ['BTC', 'ETH', 'LTC']:
+    if symbol in ['BTC', 'ETH', 'LTC'] and enable_maicoin:
         maicoin_price = get_maicoin_price(symbol, price_data['USD'])
         result_message = result_message + '\n[Maicoin]\n[Buy] ' + \
             str(maicoin_price['buy']) + ' +' + str(maicoin_price['buy_p']) + '%\n[Sell] ' + \
