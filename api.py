@@ -29,7 +29,8 @@ def get_price_full(symbol):
     result = {}
     info = {}
     coin_data = requests.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=USD,BTC,ETH'.format(symbol)).json()
-
+    if 'HasWarning' in coin_data:
+        return None
     for sym, data in coin_data['RAW'][symbol].items():
         result[sym] = data['PRICE']
 
