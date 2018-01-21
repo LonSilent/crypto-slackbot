@@ -12,7 +12,7 @@ def add_plus(pct):
     return '(' + pct + '%)'
 
 def help_message():
-    message = '`bot [coin]` :\nGet the price of *coin*. And coin\'s name should be abbreviation. Example: bot eth, bot xrp, bot ltc.\n' + \
+    message = '`bot [coin]` :\nGet the price of *coin*. And coin\'s name should be abbreviation. Example: `bot eth`, `bot xrp`, `bot ltc`.\n' + \
         '`bot [exchange]` :\nGet the bitcoin, ethereum, ripple USD price from specific *exchange*. Now only support `bitfinex`, `cexio`, `bitstamp`, `kraken`.\n' + \
         '`bot help` :\nPrint the help message'
 
