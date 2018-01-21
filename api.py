@@ -11,6 +11,13 @@ def add_plus(pct):
         pct = '+' + pct
     return '(' + pct + '%)'
 
+def help_message():
+    message = '`bot [coin]` :\nGet the price of *coin*. And coin\'s name should be abbreviation. Example: bot eth, bot xrp, bot ltc.\n' + \
+        '`bot [exchange]` :\nGet the bitcoin, ethereum, ripple USD price from specific *exchange*. Now only support `bitfinex`, `cexio`, `bitstamp`, `kraken`.\n' + \
+        '`bot help` :\nPrint the help message'
+
+    return message
+
 # get price by symbol
 def get_price(symbol):
     result = {}
@@ -76,6 +83,10 @@ def get_maicoin_price(symbol, market_price):
 
 def collect_data(symbol, enable_maicoin=False):
     symbol = symbol.upper()
+    # return help message
+    if symbol == 'HELP':
+        return help_message()
+    # handle exchange command
     exchange_list = ['BITFINEX', 'CEXIO', 'BITSTAMP', 'KRAKEN']
     if symbol in exchange_list:
         price_data = get_exchange_price(symbol)
@@ -84,7 +95,7 @@ def collect_data(symbol, enable_maicoin=False):
             '\n[ETH] {}'.format(price_data['ETH']) + \
             '\n[XRP] {}'.format(price_data['XRP']) + '\n'
         return result_message.strip()
-
+    # handle coin commnad
     price_data, usd_pct, btc_pct, eth_pct = get_price_full(symbol)
     if price_data == None:
         return 'There is no data for the coin {}'.format(symbol)
