@@ -53,13 +53,26 @@ def get_price_full(symbol):
 
 def get_exchange_price(exchange):
     result = {}
+    high_24hr = {}
+    low_24hr = {}
+    exchange_pct = {}
     exchange = exchange.lower().capitalize()
-    coin_data = requests.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP&tsyms=USD&e={}'.format(exchange)).json()
 
-    for sym, price in coin_data.items():
-        result[sym] = price['USD']
+    # coin_data = requests.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,XRP&tsyms=USD&e={}'.format(exchange)).json()
+    # for sym, price in coin_data.items():
+    #     result[sym] = price['USD']
+    coin_list = ['BTC', 'ETH', 'XRP']
 
-    return result
+    coin_data = requests.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH,XRP&tsyms=USD&e={}'.format(exchange)).json()
+
+    for coin in coin_list:
+        data = coin_data['RAW'][coin]['USD']    
+        result[coin] = data['PRICE']
+        high_24hr[coin] = data['HIGH24HOUR']
+        low_24hr[coin] = data['LOW24HOUR']
+        exchange_pct[coin] = add_plus(coin_data['DISPLAY'][coin]['USD']['CHANGEPCT24HOUR'])
+
+    return result, high_24hr, low_24hr, exchange_pct
 
 # get maicoin price, only support BTC, ETH, LTC
 def get_maicoin_price(symbol, market_price):
@@ -89,11 +102,14 @@ def collect_data(symbol, enable_maicoin=False):
     # handle exchange command
     exchange_list = ['BITFINEX', 'CEXIO', 'BITSTAMP', 'KRAKEN']
     if symbol in exchange_list:
-        price_data = get_exchange_price(symbol)
+        price_data, high_24hr, low_24hr, exchange_pct = get_exchange_price(symbol)
         result_message = symbol.lower().capitalize() + '\n' + \
-            '[BTC] {}'.format(price_data['BTC']) + \
-            '\n[ETH] {}'.format(price_data['ETH']) + \
-            '\n[XRP] {}'.format(price_data['XRP']) + '\n'
+            '[BTC] {} {}\n[high_24hr] {}\n[low_24hr] {}\n'.format( \
+                price_data['BTC'], exchange_pct['BTC'], high_24hr['BTC'], low_24hr['BTC']) + \
+            '\n[ETH] {} {}\n[high_24hr] {}\n[low_24hr] {}\n'.format( \
+                price_data['ETH'], exchange_pct['ETH'], high_24hr['ETH'], low_24hr['ETH']) + \
+            '\n[XRP] {} {}\n[high_24hr] {}\n[low_24hr] {}\n'.format( \
+                price_data['XRP'], exchange_pct['XRP'], high_24hr['XRP'], low_24hr['XRP']) + '\n'
         return result_message.strip()
     # handle coin commnad
     price_data, usd_pct, btc_pct, eth_pct = get_price_full(symbol)
@@ -121,12 +137,12 @@ if __name__ == '__main__':
     
     print(collect_data('btc'))
     print(collect_data('eth'))
-    print(collect_data('ltc'))
+    # print(collect_data('ltc'))
     print(collect_data('xrp'))
     print(collect_data('cexio'))
-    print(collect_data('bitfinex'))
+    # print(collect_data('bitfinex'))
     print(collect_data('kraken'))
-    print(collect_data('bitstamp'))
+    # print(collect_data('bitstamp'))
     # print(collect_data('btc'))
     # print(collect_data('ada'))
     
