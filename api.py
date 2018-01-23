@@ -100,6 +100,12 @@ def collect_data(symbol, enable_maicoin=False):
     if symbol == 'HELP':
         return help_message()
     # handle exchange command
+    if symbol == 'CEX':
+        symbol = 'CEXIO'
+    if symbol == 'BITF':
+        symbol = 'BITFINEX'
+    if symbol == 'STAMP':
+        symbol = 'BITSTAMP'
     exchange_list = ['BITFINEX', 'CEXIO', 'BITSTAMP', 'KRAKEN']
     if symbol in exchange_list:
         price_data, high_24hr, low_24hr, exchange_pct = get_exchange_price(symbol)
@@ -135,13 +141,14 @@ if __name__ == '__main__':
 
     # print(get_price_full('BTC'))
     
-    print(collect_data('btc'))
-    print(collect_data('eth'))
+    # print(collect_data('btc'))
+    # print(collect_data('eth'))
     # print(collect_data('ltc'))
-    print(collect_data('xrp'))
-    print(collect_data('cexio'))
-    # print(collect_data('bitfinex'))
-    print(collect_data('kraken'))
+    # print(collect_data('xrp'))
+    print(collect_data('cex'))
+    print(collect_data('bitf'))
+    print(collect_data('stamp'))
+    # print(collect_data('kraken'))
     # print(collect_data('bitstamp'))
     # print(collect_data('btc'))
     # print(collect_data('ada'))
